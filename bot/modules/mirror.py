@@ -205,7 +205,7 @@ class MirrorListener:
             except Exception as e:
                 LOGGER.error(str(e))
             count = len(download_dict)
-        msg = f"{self.tag} your download has been stopped due to: {error}"
+        msg = f"⚠⁉{self.tag} your download has been stopped due to: {error}"
         sendMessage(msg, self.bot, self.message)
         if count == 0:
             self.clean()
@@ -230,14 +230,14 @@ class MirrorListener:
                     pass
         if not self.isPrivate and INCOMPLETE_TASK_NOTIFIER and DB_URI is not None:
             DbManger().rm_complete_task(self.message.link)
-        msg = f"<b>Name: </b><code>{escape(name)}</code>\n\n<b>Size: </b>{size}"
+        msg = f"<b>╭🗂️ Name: </b><code>{escape(name)}</code>\n\n<b>├📐 Size: </b>{size}"
         if self.isLeech:
             if SOURCE_LINK is True:
                 try:
                     source_link = message_args[1]
                     if is_magnet(source_link):
                         link = telegraph.create_page(
-                        title='Helios-Mirror Source Link',
+                        title='Mirror Source Link',
                         content=source_link,
                     )["path"]
                         buttons.buildbutton(f"🔗 Source Link", f"https://graph.org/{link}")
@@ -253,7 +253,7 @@ class MirrorListener:
                             source_link = reply_text.strip()
                             if is_magnet(source_link):
                                 link = telegraph.create_page(
-                                    title='Helios-Mirror Source Link',
+                                    title='Mirror Source Link',
                                     content=source_link,
                                 )["path"]
                                 buttons.buildbutton(f"🔗 Source Link", f"https://graph.org/{link}")
@@ -267,10 +267,10 @@ class MirrorListener:
                 b_uname = bot_d.username
                 botstart = f"http://t.me/{b_uname}"
                 buttons.buildbutton("View file in PM", f"{botstart}")
-            msg += f'\n<b>Total Files: </b>{folders}'
+            msg += f'\n<b>├📚 Total Files: </b>{folders}'
             if typ != 0:
-                msg += f'\n<b>Corrupted Files: </b>{typ}'
-            msg += f'\n<b>cc: </b>{self.tag}\n\n'
+                msg += f'\n<b>├💀 Corrupted Files: </b>{typ}'
+            msg += f'\n<b>╰👤 cc: </b>{self.tag}\n\n'
             if not files:
                 uploadmsg = sendMessage(msg, self.bot, self.message)
             else:
@@ -285,11 +285,11 @@ class MirrorListener:
                     uploadmsg = sendMarkup(msg + fmsg, self.bot, self.message, InlineKeyboardMarkup(buttons.build_menu(2)))
                     Thread(target=auto_delete_upload_message, args=(bot, self.message, uploadmsg)).start()
         else:
-            msg += f'\n\n<b>Type: </b>{typ}'
+            msg += f'\n<b>├📦 Type: </b>{typ}'
             if ospath.isdir(f'{DOWNLOAD_DIR}{self.uid}/{name}'):
-                msg += f'\n<b>SubFolders: </b>{folders}'
-                msg += f'\n<b>Files: </b>{files}'
-            msg += f'\n\n<b>cc: </b>{self.tag}'
+                msg += f'\n<b>├🗃️ SubFolders: </b>{folders}'
+                msg += f'\n<b>├🗂️Files: </b>{files}'
+            msg += f'\n<b>╰👤cc: </b>{self.tag}'
             buttons = ButtonMaker()
             buttons.buildbutton("☁️ Drive Link", link)
             LOGGER.info(f'Done Uploading {name}')
@@ -315,7 +315,7 @@ class MirrorListener:
                     mesg = message_args[1]
                     if is_magnet(mesg):
                         link = telegraph.create_page(
-                            title='Helios-Mirror Source Link',
+                            title='Mirror Source Link',
                             content=mesg,
                         )["path"]
                         buttons.buildbutton(f"🔗 Source Link", f"https://graph.org/{link}")
@@ -337,7 +337,7 @@ class MirrorListener:
                         source_link = reply_text.strip()
                         if is_magnet(source_link):
                             link = telegraph.create_page(
-                                title='Helios-Mirror Source Link',
+                                title='Mirror Source Link',
                                 content=source_link,
                             )["path"]
                             buttons.buildbutton(f"🔗 Source Link", f"https://graph.org/{link}")
@@ -510,7 +510,7 @@ def _mirror(bot, message, isZip=False, extract=False, isQbit=False, isLeech=Fals
         help_msg += "\n\n<b>Qbittorrent selection:</b>"
         help_msg += "\n<code>/qbcommand</code> <b>s</b> {link} or by replying to {file/link}"
         help_msg += "\n\n<b>Multi links only by replying to first link or file:</b>"
-        help_msg += "\n<code>/command</code> 10(number of links/files)"
+        help_msg += "\n<code>/command</code> 10(number of links/files)\n\n<b>⚠⁉ If You Don't Know How To Use Bots, Check Others Message. Don't Play With Commands</b>"
         return sendMessage(help_msg, bot, message)
 
     LOGGER.info(link)
